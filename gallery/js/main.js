@@ -34,33 +34,33 @@ const Imgloader = new THREE.TextureLoader();
 
 class Gallery {
     constructor() {
-        loader.load("Gallery/gallery.glb", (gltf) => {
+        loader.load("Gallery/Gallery/gallery.glb", (gltf) => {
             scene.add(gltf.scene);
             gltf.scene.scale.set(.4, .4, .4);
             gltf.scene.rotation.set(0, -1.56, 0);
             gltf.scene.position.set(0.2, -2, 2.5);
             this.gallery = gltf.scene;
 
-            this.gallery.children[0].children[1].material.map = Imgloader.load("arts/1.png");
-            this.gallery.children[1].children[1].material.map = Imgloader.load("arts/2.jpg");
-            this.gallery.children[2].children[1].material.map = Imgloader.load("arts/3.jpg");
-            this.gallery.children[3].children[1].material.map = Imgloader.load("arts/4.jpg");
-            this.gallery.children[4].children[1].material.map = Imgloader.load("arts/5.jpg");
-            this.gallery.children[5].children[1].material.map = Imgloader.load("arts/6.jpg");
-            this.gallery.children[6].children[1].material.map = Imgloader.load("arts/7.jpg");
-            this.gallery.children[7].children[1].material.map = Imgloader.load("arts/8.jpg");
-            this.gallery.children[8].children[1].material.map = Imgloader.load("arts/9.jpg");
-            this.gallery.children[9].children[1].material.map = Imgloader.load("arts/10.jpg");
-            this.gallery.children[10].children[1].material.map = Imgloader.load("arts/11.jpg");
-            this.gallery.children[11].children[1].material.map = Imgloader.load("arts/12.jpg");
-            this.gallery.children[12].children[1].material.map = Imgloader.load("arts/13.jpg");
-            this.gallery.children[13].children[1].material.map = Imgloader.load("arts/14.jpg");
-            this.gallery.children[14].children[1].material.map = Imgloader.load("arts/15.jpg");
-            this.gallery.children[15].children[1].material.map = Imgloader.load("arts/16.jpg");
-            this.gallery.children[16].children[1].material.map = Imgloader.load("arts/17.jpg");
-            this.gallery.children[17].children[1].material.map = Imgloader.load("arts/18.jpg");
-            this.gallery.children[18].children[0].material.map = Imgloader.load("arts/floor.jpg");
-            this.gallery.children[18].children[1].material.map = Imgloader.load("arts/wall.jpg");
+            this.gallery.children[0].children[1].material.map = Imgloader.load("gallery/arts/1.png");
+            this.gallery.children[1].children[1].material.map = Imgloader.load("gallery/arts/2.jpg");
+            this.gallery.children[2].children[1].material.map = Imgloader.load("gallery/arts/3.jpg");
+            this.gallery.children[3].children[1].material.map = Imgloader.load("gallery/arts/4.jpg");
+            this.gallery.children[4].children[1].material.map = Imgloader.load("gallery/arts/5.jpg");
+            this.gallery.children[5].children[1].material.map = Imgloader.load("gallery/arts/6.jpg");
+            this.gallery.children[6].children[1].material.map = Imgloader.load("gallery/arts/7.jpg");
+            this.gallery.children[7].children[1].material.map = Imgloader.load("gallery/arts/8.jpg");
+            this.gallery.children[8].children[1].material.map = Imgloader.load("gallery/arts/9.jpg");
+            this.gallery.children[9].children[1].material.map = Imgloader.load("gallery/arts/10.jpg");
+            this.gallery.children[10].children[1].material.map = Imgloader.load("gallery/arts/11.jpg");
+            this.gallery.children[11].children[1].material.map = Imgloader.load("gallery/arts/12.jpg");
+            this.gallery.children[12].children[1].material.map = Imgloader.load("gallery/arts/13.jpg");
+            this.gallery.children[13].children[1].material.map = Imgloader.load("gallery/arts/14.jpg");
+            this.gallery.children[14].children[1].material.map = Imgloader.load("gallery/arts/15.jpg");
+            this.gallery.children[15].children[1].material.map = Imgloader.load("gallery/arts/16.jpg");
+            this.gallery.children[16].children[1].material.map = Imgloader.load("gallery/arts/17.jpg");
+            this.gallery.children[17].children[1].material.map = Imgloader.load("gallery/arts/18.jpg");
+            this.gallery.children[18].children[0].material.map = Imgloader.load("gallery/arts/floor.jpg");
+            this.gallery.children[18].children[1].material.map = Imgloader.load("gallery/arts/wall.jpg");
         });
     }
 }
@@ -100,7 +100,7 @@ class User {
     }
 
     visitorModel(id) {
-        fbxloader.load("models/stickman.fbx", (object) => {
+        fbxloader.load("gallery/models/stickman.fbx", (object) => {
             object.scale.set(.0003, .00028, .0003);
             object.rotation.set(0, -3.1, 0);
             object.position.set(0.2, -2, 1);
