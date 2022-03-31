@@ -59,8 +59,9 @@ function loginUser() {
 
     setTimeout(() => {
 
-        let value = loginArray.find((element) =>
-            userData.email == element.email && userData.psw == element.psw);
+        // let value = loginArray.find((element) =>
+        //     userData.email == element.email && userData.psw == element.psw);
+        let value = "yes";
 
         if (value != null) {
             console.log("if condition true");
