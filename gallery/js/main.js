@@ -127,6 +127,7 @@ class User {
                 }
             }
         })
+
         window.addEventListener("keyup", (event) => {
             if (event.key == "w") {
                 modelaction = false;
@@ -204,7 +205,7 @@ function newPlayer(player) {
 }
 
 function disconnect(id) {
-    console.log("disconnect ==>", id)
+    console.log("discnt =>", id)
 }
 
 function upDateplayer(data, id) {
