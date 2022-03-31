@@ -61,6 +61,7 @@ function loginUser() {
 
         // let value = loginArray.find((element) =>
         //     userData.email == element.email && userData.psw == element.psw);
+        
         let value = "yes";
 
         if (value != null) {
