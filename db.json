@@ -1,0 +1,40 @@
+{
+  "UserData": [
+    {
+      "username": "mhashir",
+      "email": "hashir.bhatti@gmail.com",
+      "psw": "zz",
+      "id": 1
+    },
+    {
+      "username": "saad",
+      "email": "saad@saad.com",
+      "psw": "x",
+      "id": 2
+    },
+    {
+      "username": "asasa",
+      "email": "aaaa@aaa.com",
+      "psw": "12345r",
+      "id": 3
+    },
+    {
+      "username": "M Amir",
+      "email": "asdf@ali.com",
+      "psw": "22",
+      "id": 4
+    },
+    {
+      "username": "Umer",
+      "email": "umer@gmail.com",
+      "psw": "112233",
+      "id": 5
+    },
+    {
+      "username": "hassan",
+      "email": "hassan123@gmail.com",
+      "psw": "h12h",
+      "id": 6
+    }
+  ]
+}

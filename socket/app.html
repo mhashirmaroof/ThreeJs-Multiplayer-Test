@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica arial;
+        }
+
+        form {
+            background: white;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: 1px solid black;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+
+        form button {
+            width: 9%;
+            background: rgb(130, 224, 225);
+            border: none;
+            padding: 10px;
+        }
+
+        table.list {
+            margin-top: 5px;
+            margin-left: 10px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* table tr{
+            background-color: antiquewhite;
+        } */
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        const socket = io();
+
+        function sendMessage() {
+            var chatmsg = document.getElementById('msg').value;
+
+            socket.emit("chat message", chatmsg);
+
+            setTimeout(() => {
+                document.getElementById('msg').value = ('');
+            }, 50);
+        }
+        
+        socket.on("chat message", function (msg) {
+            var newMsg = msg;
+            console.log("msg arr ===> ", newMsg);
+            var table = document.getElementById("chatMessages").getElementsByTagName("tbody")[0];
+            var html = "";
+            for (var i = 0; i < 1; i++) {
+                html = `<tr><td>${newMsg}<tr><td>`;
+            }
+            table.innerHTML += html;
+        })
+    </script>
+</head>
+
+<body class="body">
+    <table class="list" id="chatMessages">
+        <tbody>
+
+        </tbody>
+    </table>
+    <form class="form" onsubmit="event.preventDefault();sendMessage();">
+        <input class="forminput" type="text" id="msg" autocomplete="off">
+        <button type="submit" class="formbutton">Send</button>
+    </form>
+</body>
+
+</html>
