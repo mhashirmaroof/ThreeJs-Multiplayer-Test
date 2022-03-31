@@ -195,7 +195,7 @@ setTimeout(() => {
 }, 118);
 
 function handleMessage(msg) {
-    console.log("msg=>", msg)
+    // console.log("msg=>", msg)
 }
 
 function newPlayer(player) {
@@ -205,7 +205,7 @@ function newPlayer(player) {
 }
 
 function disconnect(id) {
-    console.log("disconnect ==>", id)
+    // console.log("disconnect ==>", id)
 }
 
 function upDateplayer(data, id) {
