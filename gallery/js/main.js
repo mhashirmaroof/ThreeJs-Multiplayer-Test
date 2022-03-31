@@ -204,9 +204,9 @@ function newPlayer(player) {
     console.log("==>", humanModels);
 }
 
-function disconnect(id) {
-    console.log("disconnect ==>", id)
-}
+// function disconnect(id) {
+//     console.log("disconnect ==>", id)
+// }
 
 function upDateplayer(data, id) {
     if (data.key == "w") {
