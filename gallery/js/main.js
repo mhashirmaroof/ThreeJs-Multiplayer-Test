@@ -205,7 +205,7 @@ function newPlayer(player) {
 }
 
 function disconnect(id) {
-    console.log("discnt =>", id)
+    console.log("disconnect ==>", id)
 }
 
 function upDateplayer(data, id) {
