@@ -85,6 +85,8 @@ var playerCamera = new THREE.Object3D();
 var humanModel;
 var humanModels = {};
 var modelaction = false;
+var currentVisitor = [];
+var Visitors = [];
 
 const socket = io('http://localhost:3010/');
 socket.on('chat message', handleMessage);
@@ -198,6 +200,7 @@ function handleMessage(msg) {
 
 function newPlayer(player) {
     local.visitorModel(player.playerId)
+    Visitors.push(player.playerId)
     console.log("==>", humanModels);
 }
 
