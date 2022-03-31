@@ -1,44 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="register.css">
-  <title>Login Register</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Gallery</title>
 </head>
-
 <body>
-  <script src="gallery/js/axios.min.js"></script>
-  <script src="gallery/js/index.js"></script>
-  <form onsubmit="event.preventDefault();loginUser();">
-    <div class="container containerwidth">
-      <div class="row text-center">
-        <h1 class="col-12">Login Here</h1>
-      </div>
-      <div class="row pt-5">
-        <div class="col">
-          <label class="icon-label">Email Address</label>
-          <input type="email" id="email" class="form-control" placeholder="Enter your Email" name="email" required>
-        </div>
-      </div>
-
-      <div class="row pt-2 pb-3">
-        <div class="col">
-
-          <label class="icon-label">Password</label>
-          <input type="password" id="psw" class="form-control" placeholder="Enter your Password" name="psw" required>
-        </div>
-      </div>
-      <button type="submit" class="registerbtn">Login</button>
-    </div>
-    <div class="container signin pt-3">
-      <p class="text-center">Don't have an account? <a href="gallery/register.html">Register</a></p>
-    </div>
-  </form>
+    <script src="gallery/js/three.js"></script>
+    <script src="gallery/js/GLTFLoader.js"></script>
+    <script src="gallery/js/gsap.min.js"></script>
+    <script src="gallery/js/dat.gui.min.js"></script>
+    <script src="gallery/js/OrbitControls.js"></script>
+    <script src="gallery/js/FirstPersonControls.js"></script>
+    <script src="gallery/js/PointerLockControls.js"></script>
+    <script src="gallery/js/FBXLoader.js"></script>
+    <script src="gallery/js/fflate.min.js"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="gallery/js/main.js"></script>
 </body>
-
 </html>
