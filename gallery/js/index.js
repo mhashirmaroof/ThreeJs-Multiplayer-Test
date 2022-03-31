@@ -55,7 +55,7 @@ function loginUser() {
     //         console.log(error);
     //     });
 
-    console.log(JSON.parse(loginArray));
+    // console.log(JSON.parse(loginArray));
 
     setTimeout(() => {
 
