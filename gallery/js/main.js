@@ -127,7 +127,6 @@ class User {
                 }
             }
         })
-
         window.addEventListener("keyup", (event) => {
             if (event.key == "w") {
                 modelaction = false;
