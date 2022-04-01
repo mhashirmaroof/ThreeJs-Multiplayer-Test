@@ -34,7 +34,7 @@ const Imgloader = new THREE.TextureLoader();
 
 class Gallery {
     constructor() {
-        loader.load("Gallery/Gallery/gallery.glb", (gltf) => {
+        loader.load("gallery/Gallery/gallery.glb", (gltf) => {
             scene.add(gltf.scene);
             gltf.scene.scale.set(.4, .4, .4);
             gltf.scene.rotation.set(0, -1.56, 0);
