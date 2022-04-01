@@ -109,8 +109,8 @@ class User {
             mixer = new THREE.AnimationMixer(object);
             const animateAction = mixer.clipAction(object.animations[2]).play();
             player.push(animateAction);
-            scene.add(object);
             humanModel = object;
+            scene.add(humanModel);
             humanModels[id] = object;
         })
     }
@@ -181,7 +181,7 @@ class UserLocal extends User {
     updatePlayer(data) {
         socket.emit("upDateplayer", data)
     }
-    
+
     updatePlayerAnimation(data) {
         socket.emit("upDateanimation", data)
     }
@@ -194,8 +194,16 @@ setTimeout(() => {
     local.backwordWalk(humanModel);
 }, 118);
 
+class ThirdPersonCamera {
+    constructor() {
+
+    }
+}
+
+var third = new ThirdPersonCamera();
+
 function handleMessage(msg) {
-    // console.log("msg=>", msg)
+    console.log("msg=>", msg)
 }
 
 function newPlayer(player) {
@@ -205,7 +213,7 @@ function newPlayer(player) {
 }
 
 function disconnect(id) {
-    // console.log("disconnect ==>", id)
+    console.log("disconnect ==>", id)
 }
 
 function upDateplayer(data, id) {
@@ -243,7 +251,6 @@ document.addEventListener('pointerlockchange', lockChangeAlert, false);
 document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
 
 playerCamera.position.set(0, 0, 5)
-
 playerCamera.add(camera);
 scene.add(playerCamera);
 
@@ -304,7 +311,7 @@ function update() {
         };
         local.updatePlayer(obj);
     };
-    
+
     if (keys["a"]) {
         playerCamera.position.x -= moveSpeed * Math.sin(playerCamera.rotation.y + Math.PI / 2)
         playerCamera.position.z -= moveSpeed * Math.cos(playerCamera.rotation.y - Math.PI / 2)
@@ -316,7 +323,7 @@ function update() {
         };
         local.updatePlayer(obj);
     }
-    
+
     mixer.update(clock.getDelta());
 };
 function animate() {
@@ -325,3 +332,9 @@ function animate() {
     update();
 };
 animate();
+
+
+
+
+// https://programmer.ink/think/three.js-series-write-a-first-third-person-perspective-game.html
+// https://javatools.org/q/third-person-camera-on-threejs-21910/
