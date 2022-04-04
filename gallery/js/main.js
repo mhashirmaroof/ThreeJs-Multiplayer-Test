@@ -209,7 +209,7 @@ var local = new UserLocal();
 setTimeout(() => {
     local.forwardWalk(humanModel);
     local.backwordWalk(humanModel);
-}, 118);
+}, 140);
 
 class ThirdPersonCamera {
     constructor() {
