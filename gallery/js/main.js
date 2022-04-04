@@ -31,6 +31,7 @@ var b = new THREE.Vector3;
 var SafetyDistance = 0.3;
 var velocity = 0.0;
 var speed = 0.0;
+var environment = [];
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -45,7 +46,6 @@ const light = new THREE.AmbientLight("white", 1);
 gui.add(light, "intensity", 0, 2.0);
 scene.add(light);
 
-var environment;
 class Gallery {
     constructor() {
         loader.load("gallery/Gallery/gallery.glb", (gltf) => {
@@ -54,7 +54,6 @@ class Gallery {
             gltf.scene.rotation.set(0, -1.56, 0);
             gltf.scene.position.set(0.2, -2, 2.5);
             this.gallery = gltf.scene;
-            environment = gltf.scene;
 
             this.gallery.children[0].children[1].material.map = Imgloader.load("gallery/arts/1.png");
             this.gallery.children[1].children[1].material.map = Imgloader.load("gallery/arts/2.jpg");
@@ -119,7 +118,7 @@ class User {
             object.scale.set(.0003, .00028, .0003);
             object.rotation.set(0, -3.1, 0);
             object.position.set(0.2, -2, -1.2);
-            gui.add(object.position, "z", -10,10)
+            gui.add(object.position, "z", -10, 10)
             gui.add(object.rotation, "y", -10, 10);
             gui.add(object.position, "y", -10, 10);
             mixer = new THREE.AnimationMixer(object);
@@ -211,13 +210,45 @@ setTimeout(() => {
     local.backwordWalk(humanModel);
 }, 140);
 
-class ThirdPersonCamera {
-    constructor() {
+const worldOctree = new THREE.Octree();
+const playerCollider = new THREE.Capsule(new THREE.Vector3(0, 0.35, 0), new THREE.Vector3(0, 1, 0), 0.35);
+const playerVelocity = new THREE.Vector3();
+
+function playerCollisions() {
+
+    const result = worldOctree.capsuleIntersect(playerCollider);
+
+    playerOnFloor = false;
+
+    if (result) {
+
+        playerOnFloor = result.normal.y > 0;
+
+        if (!playerOnFloor) {
+
+            playerVelocity.addScaledVector(result.normal, - result.normal.dot(playerVelocity));
+
+        }
+
+        playerCollider.translate(result.normal.multiplyScalar(result.depth));
 
     }
+
 }
 
-var third = new ThirdPersonCamera();
+function stopPLayerIfobj() {
+
+    setTimeout(() => {
+        if (humanModel.position.y <= - 2) {
+            playerCollider.start.set(0, 0.35, 0);
+            playerCollider.end.set(0, 1, 0);
+            playerCollider.radius = 0.35;
+            // humanModel.position.copy(playerCollider.end);
+            // humanModel.rotation.set(0, 0, 0);
+
+        }
+    }, 180);
+}
 
 function handleMessage(msg) {
     console.log("msg=>", msg)
@@ -268,7 +299,7 @@ document.addEventListener('pointerlockchange', lockChangeAlert, false);
 document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
 
 playerCamera.add(camera)
-playerCamera.position.set(0,1.8,0)
+playerCamera.position.set(0, 1.8, 0)
 
 goal.add(playerCamera);
 scene.add(goal);
@@ -329,6 +360,15 @@ function update() {
     }, 120);
 
     mixer.update(clock.getDelta());
+
+    const deltaTime = Math.min(0.05, clock.getDelta())
+    const deltaPosition = playerVelocity.clone().multiplyScalar(deltaTime);
+    playerCollider.translate(deltaPosition);
+
+    playerCollisions();
+    stopPLayerIfobj();
+
+    // camera.position.copy(playerCollider.end)
 };
 function animate() {
     requestAnimationFrame(animate);
