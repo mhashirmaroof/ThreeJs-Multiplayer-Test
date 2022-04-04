@@ -16,22 +16,36 @@ window.addEventListener('resize', function () {
 })
 
 var gui = new dat.GUI();
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+const loader = new THREE.GLTFLoader();
+const Imgloader = new THREE.TextureLoader();
+var goal, follow;
+var angel = new THREE.Vector3;
+var dir = new THREE.Vector3;
+var a = new THREE.Vector3;
+var b = new THREE.Vector3;
+var SafetyDistance = 0.3;
+var velocity = 0.0;
+var speed = 0.0;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
+camera.lookAt(scene.position);
+
+goal = new THREE.Object3D;
+follow = new THREE.Object3D;
+follow.position.z = -SafetyDistance;
 
 const light = new THREE.AmbientLight("white", 1);
 gui.add(light, "intensity", 0, 2.0);
 scene.add(light);
 
-const loader = new THREE.GLTFLoader();
-const Imgloader = new THREE.TextureLoader();
-
+var environment;
 class Gallery {
     constructor() {
         loader.load("gallery/Gallery/gallery.glb", (gltf) => {
@@ -40,6 +54,7 @@ class Gallery {
             gltf.scene.rotation.set(0, -1.56, 0);
             gltf.scene.position.set(0.2, -2, 2.5);
             this.gallery = gltf.scene;
+            environment = gltf.scene;
 
             this.gallery.children[0].children[1].material.map = Imgloader.load("gallery/arts/1.png");
             this.gallery.children[1].children[1].material.map = Imgloader.load("gallery/arts/2.jpg");
@@ -103,13 +118,15 @@ class User {
         fbxloader.load("gallery/models/stickman.fbx", (object) => {
             object.scale.set(.0003, .00028, .0003);
             object.rotation.set(0, -3.1, 0);
-            object.position.set(0.2, -2, 1);
+            object.position.set(0.2, -2, -1.2);
+            gui.add(object.position, "z", -10,10)
             gui.add(object.rotation, "y", -10, 10);
             gui.add(object.position, "y", -10, 10);
             mixer = new THREE.AnimationMixer(object);
             const animateAction = mixer.clipAction(object.animations[2]).play();
             player.push(animateAction);
             humanModel = object;
+            humanModel.add(follow);
             scene.add(humanModel);
             humanModels[id] = object;
         })
@@ -220,39 +237,41 @@ function upDateplayer(data, id) {
     if (data.key == "w") {
         playerCamera.position.x -= data.x
         playerCamera.position.z -= data.z
-        humanModels[id].position.z -= 0.09
-        console.log("model ==->>", humanModels);
-        console.log("current id ===->", id);
+        // humanModels[id].position.z -= 0.09
+        // console.log("model ==->>", humanModels);
+        // console.log("current id ===->", id);
     };
 
     if (data.key == "s") {
         playerCamera.position.x += data.x
         playerCamera.position.z += data.z
-        humanModels[id].position.z += 0.09
+        // humanModels[id].position.z += 0.09
     };
 
     if (data.key == "d") {
         playerCamera.position.x += data.x
         playerCamera.position.z += data.z
-        humanModels[id].position.x += 0.09
+        // humanModels[id].position.x += 0.09
     };
     if (data.key == "a") {
         playerCamera.position.x -= data.x
         playerCamera.position.z -= data.z
-        humanModels[id].position.x -= 0.09
+        // humanModels[id].position.x -= 0.09
     }
 }
 
-camera.position.set(0, 0, 0);
+camera.position.set(0, 0, 5);
 
 renderer.domElement.onclick = () =>
     renderer.domElement.requestPointerLock()
 document.addEventListener('pointerlockchange', lockChangeAlert, false);
 document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
 
-playerCamera.position.set(0, 0, 5)
-playerCamera.add(camera);
-scene.add(playerCamera);
+playerCamera.add(camera)
+playerCamera.position.set(0,1.8,0)
+
+goal.add(playerCamera);
+scene.add(goal);
 
 function updatePosition(event) {
     camera.rotation.order = 'YZX'
@@ -274,55 +293,40 @@ function lockChangeAlert() {
 
 function update() {
 
-    let moveSpeed = 0.09
+    speed = 0.0;
 
     if (keys["w"]) {
-        playerCamera.position.x -= Math.sin(playerCamera.rotation.y) * moveSpeed;
-        playerCamera.position.z -= Math.cos(playerCamera.rotation.y) * moveSpeed;
-        humanModel.position.z -= 0.09
-        const obj = {
-            x: Math.sin(playerCamera.rotation.y) * moveSpeed,
-            z: Math.cos(playerCamera.rotation.y) * moveSpeed,
-            key: "w"
-        };
-        local.updatePlayer(obj);
+        speed = 0.05
+        velocity += (speed - velocity) * .3;
+        humanModel.translateZ(velocity);
+
     };
 
     if (keys["s"]) {
-        playerCamera.position.x += Math.sin(playerCamera.rotation.y) * moveSpeed;
-        playerCamera.position.z += Math.cos(playerCamera.rotation.y) * moveSpeed;
-        humanModel.position.z += 0.09
-        const obj = {
-            x: Math.sin(playerCamera.rotation.y) * moveSpeed,
-            z: Math.cos(playerCamera.rotation.y) * moveSpeed,
-            key: "s"
-        };
-        local.updatePlayer(obj);
+        speed = -0.05;
+        velocity += (speed - velocity) * .3;
+        humanModel.translateZ(velocity);
     };
 
     if (keys["d"]) {
-        playerCamera.position.x += moveSpeed * Math.sin(playerCamera.rotation.y + Math.PI / 2)
-        playerCamera.position.z += moveSpeed * Math.cos(playerCamera.rotation.y - Math.PI / 2)
-        humanModel.position.x += 0.09
-        const obj = {
-            x: moveSpeed * Math.sin(playerCamera.rotation.y + Math.PI / 2),
-            z: moveSpeed * Math.cos(playerCamera.rotation.y - Math.PI / 2),
-            key: "d"
-        };
-        local.updatePlayer(obj);
+        humanModel.rotateY(-0.05);
     };
 
     if (keys["a"]) {
-        playerCamera.position.x -= moveSpeed * Math.sin(playerCamera.rotation.y + Math.PI / 2)
-        playerCamera.position.z -= moveSpeed * Math.cos(playerCamera.rotation.y - Math.PI / 2)
-        humanModel.position.x -= 0.09
-        const obj = {
-            x: moveSpeed * Math.sin(playerCamera.rotation.y + Math.PI / 2),
-            z: moveSpeed * Math.cos(playerCamera.rotation.y - Math.PI / 2),
-            key: "a"
-        };
-        local.updatePlayer(obj);
+        humanModel.rotateY(0.05);
     }
+    setTimeout(() => {
+        a.lerp(humanModel.position, 0.4);
+        b.copy(goal.position);
+
+        dir.copy(a).sub(b).normalize();
+        const dis = a.distanceTo(b) - SafetyDistance;
+        goal.position.addScaledVector(dir, dis);
+        goal.position.lerp(angel, 0.02);
+        angel.setFromMatrixPosition(follow.matrixWorld);
+
+        camera.lookAt(humanModel.position);
+    }, 120);
 
     mixer.update(clock.getDelta());
 };
@@ -332,9 +336,3 @@ function animate() {
     update();
 };
 animate();
-
-
-
-
-// https://programmer.ink/think/three.js-series-write-a-first-third-person-perspective-game.html
-// https://javatools.org/q/third-person-camera-on-threejs-21910/
