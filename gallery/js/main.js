@@ -118,9 +118,7 @@ class User {
             object.scale.set(.0003, .00028, .0003);
             object.rotation.set(0, -3.1, 0);
             object.position.set(0.2, -2, -1.2);
-            gui.add(object.position, "z", -10, 10)
-            gui.add(object.rotation, "y", -10, 10);
-            gui.add(object.position, "y", -10, 10);
+
             mixer = new THREE.AnimationMixer(object);
             const animateAction = mixer.clipAction(object.animations[2]).play();
             player.push(animateAction);
@@ -210,42 +208,15 @@ setTimeout(() => {
     local.backwordWalk(humanModel);
 }, 140);
 
-const worldOctree = new THREE.Octree();
 const playerCollider = new THREE.Capsule(new THREE.Vector3(0, 0.35, 0), new THREE.Vector3(0, 1, 0), 0.35);
-const playerVelocity = new THREE.Vector3();
-
-function playerCollisions() {
-
-    const result = worldOctree.capsuleIntersect(playerCollider);
-
-    playerOnFloor = false;
-
-    if (result) {
-
-        playerOnFloor = result.normal.y > 0;
-
-        if (!playerOnFloor) {
-
-            playerVelocity.addScaledVector(result.normal, - result.normal.dot(playerVelocity));
-
-        }
-
-        playerCollider.translate(result.normal.multiplyScalar(result.depth));
-
-    }
-
-}
 
 function stopPLayerIfobj() {
-
     setTimeout(() => {
-        if (humanModel.position.y <= - 2) {
+        if (humanModel.position.x <= -3) {
             playerCollider.start.set(0, 0.35, 0);
-            playerCollider.end.set(0, 1, 0);
+            playerCollider.end.set(-4, -1.9, humanModel.position.z);
             playerCollider.radius = 0.35;
-            // humanModel.position.copy(playerCollider.end);
-            // humanModel.rotation.set(0, 0, 0);
-
+            humanModel.position.copy(playerCollider.end);
         }
     }, 180);
 }
@@ -269,8 +240,6 @@ function upDateplayer(data, id) {
         playerCamera.position.x -= data.x
         playerCamera.position.z -= data.z
         // humanModels[id].position.z -= 0.09
-        // console.log("model ==->>", humanModels);
-        // console.log("current id ===->", id);
     };
 
     if (data.key == "s") {
@@ -361,14 +330,7 @@ function update() {
 
     mixer.update(clock.getDelta());
 
-    const deltaTime = Math.min(0.05, clock.getDelta())
-    const deltaPosition = playerVelocity.clone().multiplyScalar(deltaTime);
-    playerCollider.translate(deltaPosition);
-
-    playerCollisions();
     stopPLayerIfobj();
-
-    // camera.position.copy(playerCollider.end)
 };
 function animate() {
     requestAnimationFrame(animate);
